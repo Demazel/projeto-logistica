@@ -41,7 +41,7 @@ tela_tbn = ttk.Frame(root)
 tela_tbn.pack(pady=20)
 
 # --- criar os botões ---
-btn_ver_frete = ttk.Button(tela_tbn, text = "Ver Fretes")
+btn_ver_frete = ttk.Button(tela_tbn, text = "Ver Fretes", command=exibir_fretes)
 # ttk.Button (onde, texto)
 
 btn_add_frete = tk.Button(tela_tbn, text="Adicionar Fretes", command=abrir_formulario_frete)

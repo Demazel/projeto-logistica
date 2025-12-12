@@ -1,12 +1,13 @@
 import csv
 import os
+from tkinter import ttk
 # os é as funções do sistema operacional (operational sistem)
 
 dados_frete = "dados_frete.csv"
 dados_cliente = "dados_cliente.csv"
 # dizendo o nome do arquivo
 
-campo_fretes = ["registro_frete","origem,destino","cliente","produto","status"]
+campo_fretes = ["registro_frete","origem","destino","cliente","produto","status"]
 campos_cliente = ["registro_cliente","nome","sobrenome","cidade","bairro"]
 # informar os campos do frete
 
@@ -23,7 +24,7 @@ def abrir_formulario_frete():
     popup_frete.title("Adicionar Fretes")
     popup_frete.geometry("500x500")
     
-    labels_fretes = ["registro_frete","origem,destino","cliente","produto","status"]
+    labels_fretes = ["registro_frete","origem","destino","cliente","produto","status"]
     fretes = {}
     
     # vou sequenciar campo com dados
@@ -59,7 +60,47 @@ def add_fretes(registro):
         # para adicionar os dados no csv
         escrever.writerow(registro)
 
+def exibir_fretes():
+    # SEMPRE QUE VOCE VAI EXIBIR DADOS COLOCAR FATOR CORRECAO
+    if not os.path.isfile(dados_frete):
+        tk.Message.showerror("ERRO", "ARQUIVO NAO ENCONTRADO")
+        return
+    
+    # criar a janela da tabela de fretes
+    janela_fretes = tk.Toplevel()
+    janela_fretes.title("Tabela Fretes")
+    janela_fretes.geometry("750x500")
 
+    # quero dizer para a tabela os campos que ela tem (as colunas)
+    colunas_fretes = campo_fretes
+    
+    # vamos juntar a tabela com as colunas (modo arvore)
+    tabela_fretes = ttk.Treeview(janela_fretes, columns=colunas_fretes, show="headings")
+    # o treeview eh o comando para mostrar os dados
+    # nele tenho qeu colocar 1 - onde, 2 - colunas, 3 - meus cabecalhos
+    # ficando tkk.treeview (nome da janela, columns = colunas, show="headings")
+    tabela_fretes.pack(fill="both")
+    
+    # configuração das colunas
+    for colunas in colunas_fretes:
+        # chamo o campo de cabecalho para escrever o cabecalho das colunas
+        tabela_fretes.heading(colunas, text=colunas)
+        # chamo o campo colmun para configurar o tamanho de cada uma
+        tabela_fretes.column(colunas, width=100)
+        
+    # ler dados CSV
+    with open(dados_frete, "r", encoding="utf-8") as arquivo:
+        leitor = csv.DictReader(arquivo, delimiter=";")
+        # leu csv
+        
+        # mostrar os csv
+        for linha in leitor:
+            # para cada linha do csv que o leitor leu vou criar um campo com o valor
+            valor = [linha.get(colunas,"") for colunas in colunas_fretes]
+            # o comando insert eh para colocar os valores nas linhas e nas colunas
+            tabela_fretes.insert("", "end", values=valor)
+            
+    
 # -------------------------- Formulario cliente
 
  
