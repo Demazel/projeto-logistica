@@ -46,7 +46,7 @@ btn_ver_frete = ttk.Button(tela_tbn, text = "Ver Fretes", command=exibir_fretes)
 
 btn_add_frete = tk.Button(tela_tbn, text="Adicionar Fretes", command=abrir_formulario_frete)
 
-btn_ver_cliente = tk.Button(tela_tbn, text="Ver Clientes")
+btn_ver_cliente = tk.Button(tela_tbn, text="Ver Clientes", command=exibir_clientes)
 
 btn_add_cliente = tk.Button(tela_tbn, text="Adicionar Clientes", command=abrir_formulario_cliente)
 

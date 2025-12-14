@@ -152,18 +152,13 @@ def exibir_clientes():
     tabela_clientes.pack(fill="both")
     
     for colunas in colunas_clientes:
-        tabela_fretes.heading(colunas, text=colunas)
-        # chamo o campo colmun para configurar o tamanho de cada uma
-        tabela_fretes.column(colunas, width=100)
+        tabela_clientes.heading(colunas, text=colunas)
+        tabela_clientes.column(colunas, width=100)
         
-    # ler dados CSV
-    with open(dados_frete, "r", encoding="utf-8") as arquivo:
-        leitor = csv.DictReader(arquivo, delimiter=";")
-        # leu csv
+    with open(dados_cliente, "r", encoding="utf-8") as arquivo_cliente:
+        leitor_cliente = csv.DictReader(arquivo_cliente, delimiter=";")
         
-        # mostrar os csv
-        for linha in leitor:
-            # para cada linha do csv que o leitor leu vou criar um campo com o valor
-            valor = [linha.get(colunas,"") for colunas in colunas_fretes]
-            # o comando insert eh para colocar os valores nas linhas e nas colunas
-            tabela_fretes.insert("", "end", values=valor)
+        for linha in leitor_cliente:
+
+            valor = [linha.get(colunas,"") for colunas in colunas_clientes]
+            tabela_clientes.insert("", "end", values=valor)
