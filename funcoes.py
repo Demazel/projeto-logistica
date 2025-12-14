@@ -59,6 +59,8 @@ def add_fretes(registro):
         
         # para adicionar os dados no csv
         escrever.writerow(registro)
+        
+# ------------ EXIBIR FRETES ------------------
 
 def exibir_fretes():
     # SEMPRE QUE VOCE VAI EXIBIR DADOS COLOCAR FATOR CORRECAO
@@ -132,3 +134,36 @@ def add_cliente(reg_client):
     with open(dados_cliente, "a", newline="", encoding="utf8") as arquivo_clientes:
         write_clientes = csv.DictWriter(arquivo_clientes, fieldnames = campos_cliente, delimiter=";")
         write_clientes.writerow(reg_client)
+
+# ------------ EXIBIR CLIENTES ------------------
+
+def exibir_clientes():
+    if not os.path.isfile(dados_cliente):
+        tk.Message.showerror("ERRO", "ARQUIVO NAO ENCONTRADO")
+        return
+    
+    janela_clientes = tk.Toplevel()
+    janela_clientes.title("Tabela Clientes")
+    janela_clientes.geometry("750x500")
+
+    colunas_clientes = campos_cliente
+    
+    tabela_clientes = ttk.Treeview(janela_clientes, columns=colunas_clientes, show="headings")
+    tabela_clientes.pack(fill="both")
+    
+    for colunas in colunas_clientes:
+        tabela_fretes.heading(colunas, text=colunas)
+        # chamo o campo colmun para configurar o tamanho de cada uma
+        tabela_fretes.column(colunas, width=100)
+        
+    # ler dados CSV
+    with open(dados_frete, "r", encoding="utf-8") as arquivo:
+        leitor = csv.DictReader(arquivo, delimiter=";")
+        # leu csv
+        
+        # mostrar os csv
+        for linha in leitor:
+            # para cada linha do csv que o leitor leu vou criar um campo com o valor
+            valor = [linha.get(colunas,"") for colunas in colunas_fretes]
+            # o comando insert eh para colocar os valores nas linhas e nas colunas
+            tabela_fretes.insert("", "end", values=valor)
